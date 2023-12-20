@@ -26,7 +26,6 @@ defmodule SimpleFeatureFlags.MixProject do
   def package do
     [
       name: "simple_feature_flags",
-      organization: "shipworthy",
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/shipworthy/simple_feature_flags"}
     ]
