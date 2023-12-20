@@ -1,4 +1,4 @@
-# SimpleFeatureFlags
+# README
 
 SimpleFeatureFlags provides a simple way to enable or disable features, per-environment, using application configuration.
 

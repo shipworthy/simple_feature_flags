@@ -13,7 +13,7 @@ defmodule SimpleFeatureFlags.MixProject do
       name: "Simple Feature Flags",
       source_url: "https://github.com/shipworthy/simple_feature_flags",
       docs: [
-        # main: "README.md",
+        main: "README",
         extras: ["README.md", "LICENSE"]
       ]
     ]
@@ -21,7 +21,7 @@ defmodule SimpleFeatureFlags.MixProject do
 
   def package do
     [
-      name: "journey",
+      name: "simple_feature_flags",
       organization: "shipworthy",
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/shipworthy/simple_feature_flags"}
