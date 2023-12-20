@@ -1,0 +1,48 @@
+name: "Validate"
+
+on:
+  pull_request:
+    branches: []
+
+permissions:
+  contents: read
+
+jobs:
+  validate_changes:
+    name: Run Linters and Tests
+    runs-on: ubuntu-latest-m
+    services:
+       pg:
+        image: postgres:13.3-buster
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: "sooshki_test"
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install OTP and Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: '1.15.7'
+        otp-version: '26.1.2'
+    - name: Manage dependencies cache
+      uses: actions/cache@v3
+      with:
+        path: deps
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-mix-
+    - name: Install dependencies for tests
+      env:
+        MIX_ENV: test
+      run: mix deps.get
+    - name: Build, Lint, Test
+      env:
+        MIX_ENV: test
+      run: make all
