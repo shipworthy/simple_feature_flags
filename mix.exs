@@ -5,8 +5,8 @@ defmodule SimpleFeatureFlags.MixProject do
     [
       app: :simple_feature_flags,
       description: "Simple feature flags",
-      version: "0.1.0",
-      elixir: "~> 1.15",
+      version: "0.1.1",
+      elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       package: package(),
