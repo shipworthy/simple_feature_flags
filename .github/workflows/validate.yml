@@ -10,7 +10,7 @@ permissions:
 jobs:
   validate_changes:
     name: Run Linters and Tests
-    runs-on: ubuntu-latest-m
+    runs-on: ubuntu-latest
     services:
        pg:
         image: postgres:13.3-buster
