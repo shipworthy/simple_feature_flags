@@ -7,7 +7,7 @@ SimpleFeatureFlags provides a simple way to enable or disable features, per-envi
 
 ### Put your feature behind the "enabled?"
 
-```
+```elixir
 def compute_pi() do
   if SimpleFeatureFlags.enabled?(:new_algorithm) do
     compute_pi_new_algorithm()
@@ -20,7 +20,7 @@ end
 ### Enable the feature in some environments 
 
 `config/runtime.exs`
-```
+```elixir
 ...
 config :simple_feature_flags, :flags, %{
   ...
@@ -37,7 +37,7 @@ config :simple_feature_flags, :flags, %{
 
 `lib/myapp/application.ex`
 
-```
+```elixir
 defmodule MyApp.Application do
 
   require Logger
@@ -63,7 +63,7 @@ Here is an example of the output:
 ### A complete configuration example
 
 `config/runtime.exs`
-```
+```elixir
 ...
 config :simple_feature_flags, :flags, %{
   current_deployment_environment: :test,
@@ -80,7 +80,7 @@ config :simple_feature_flags, :flags, %{
 
 To turn a feature or or off, update configuration and restart your application. For example, to enable the `new_algorithm` feature in production, add `:production` to the list of `enabled_in`: 
 
-```
+```elixir
     ...
         new_algorithm: %{enabled_in: [:localhost, :staging, :production]}
     ...
