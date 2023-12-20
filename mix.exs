@@ -14,6 +14,11 @@ defmodule SimpleFeatureFlags.MixProject do
       source_url: "https://github.com/shipworthy/simple_feature_flags",
       docs: [
         extras: ["README.md", "LICENSE"]
+      ],
+      test_coverage: [
+        summary: [
+          threshold: 100
+        ]
       ]
     ]
   end
@@ -36,6 +41,7 @@ defmodule SimpleFeatureFlags.MixProject do
 
   defp deps do
     [
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.31", only: :dev, runtime: false}
     ]
   end
