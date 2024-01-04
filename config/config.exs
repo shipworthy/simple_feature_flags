@@ -2,7 +2,6 @@ import Config
 
 config :simple_feature_flags, :flags, %{
   current_deployment_environment: :test,
-  possible_deployment_environments: [:test, :localhost, :staging, :production],
   features: %{
     test_feature_1: %{enabled_in: [:all]},
     test_feature_2: %{enabled_in: :all},

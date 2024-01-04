@@ -33,7 +33,6 @@ defmodule SimpleFeatureFlagsTest do
       assert SimpleFeatureFlags.current_configuration_to_string() ==
                """
                Current Deployment Environment: :test
-               Possible Deployment Environments: [:test, :localhost, :staging, :production]
                Features:
                 - test_feature_1, enabled in [:all]
                 - test_feature_2, enabled in :all
@@ -50,7 +49,6 @@ defmodule SimpleFeatureFlagsTest do
       assert SimpleFeatureFlags.configuration_to_string(configuration) ==
                """
                Current Deployment Environment: :test
-               Possible Deployment Environments: [:test, :localhost, :staging, :production]
                Features:
                 - test_feature_1, enabled in [:all]
                 - test_feature_2, enabled in :all

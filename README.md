@@ -67,7 +67,6 @@ Here is an example of the output:
 ...
 config :simple_feature_flags, :flags, %{
   current_deployment_environment: :test,
-  possible_deployment_environments: [:test, :localhost, :staging, :production],
   features: %{
     new_algorithm: %{enabled_in: [:localhost, :staging]},
     new_ui: %{enabled_in: [:localhost]}
