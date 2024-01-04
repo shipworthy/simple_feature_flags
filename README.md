@@ -54,7 +54,6 @@ Here is an example of the output:
 
 ```text
   Current Deployment Environment: :test
-  Possible Deployment Environments: [:test, :localhost, :staging, :production]
   Features:
   - new_algorithm, enabled in [:localhost, :staging]
   - new_ui, enabled in [:localhost]
@@ -67,7 +66,6 @@ Here is an example of the output:
 ...
 config :simple_feature_flags, :flags, %{
   current_deployment_environment: :test,
-  possible_deployment_environments: [:test, :localhost, :staging, :production],
   features: %{
     new_algorithm: %{enabled_in: [:localhost, :staging]},
     new_ui: %{enabled_in: [:localhost]}
@@ -93,7 +91,7 @@ The package can be installed by adding `simple_feature_flags` to your list of de
 ```elixir
 def deps do
   [
-    {:simple_feature_flags, "~> 0.1.0"}
+    {:simple_feature_flags, "~> 0.1"}
   ]
 end
 ```

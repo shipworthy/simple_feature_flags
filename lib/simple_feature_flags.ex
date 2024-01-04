@@ -13,7 +13,7 @@ defmodule SimpleFeatureFlags do
 
   """
   def enabled?(feature) do
-    possible_deployment_environments =
+    enabled_in_these_environments =
       Application.get_env(:simple_feature_flags, :flags).features
       |> Map.fetch!(feature)
       |> Map.fetch!(:enabled_in)
@@ -21,10 +21,10 @@ defmodule SimpleFeatureFlags do
     current_deployment_environment =
       Application.get_env(:simple_feature_flags, :flags).current_deployment_environment
 
-    :all == possible_deployment_environments or
-      [:all] == possible_deployment_environments or
-      :all in possible_deployment_environments or
-      current_deployment_environment in possible_deployment_environments
+    :all == enabled_in_these_environments or
+      [:all] == enabled_in_these_environments or
+      :all in enabled_in_these_environments or
+      current_deployment_environment in enabled_in_these_environments
   end
 
   @doc """
@@ -33,7 +33,7 @@ defmodule SimpleFeatureFlags do
   ## Examples
 
       iex> SimpleFeatureFlags.current_configuration_to_string()
-      "Current Deployment Environment: :test\\nPossible Deployment Environments: [:test, :localhost, :staging, :production]\\nFeatures:\\n - test_feature_1, enabled in [:all]\\n - test_feature_2, enabled in :all\\n - test_feature_3, enabled in [:test]\\n - test_feature_4, enabled in [:staging, :test, :production]\\n - test_feature_5, enabled in [:staging, :production]\\n - test_feature_6, enabled in []\\n"
+      "Current Deployment Environment: :test\\nFeatures:\\n - test_feature_1, enabled in [:all]\\n - test_feature_2, enabled in :all\\n - test_feature_3, enabled in [:test]\\n - test_feature_4, enabled in [:staging, :test, :production]\\n - test_feature_5, enabled in [:staging, :production]\\n - test_feature_6, enabled in []\\n"
 
   """
   def current_configuration_to_string() do
@@ -44,16 +44,13 @@ defmodule SimpleFeatureFlags do
   @doc false
   def configuration_to_string(%{
         current_deployment_environment: current_deployment_environment,
-        possible_deployment_environments: possible_deployment_environments,
         features: features
       })
       when is_atom(current_deployment_environment) and
              current_deployment_environment != nil and
-             is_list(possible_deployment_environments) and
              is_map(features) do
     """
     Current Deployment Environment: #{inspect(current_deployment_environment)}
-    Possible Deployment Environments: #{inspect(possible_deployment_environments)}
     Features:
     """ <>
       (for {feature_name, %{enabled_in: enabled_in}} <- features do
