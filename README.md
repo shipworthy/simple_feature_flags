@@ -1,8 +1,12 @@
 # README
 
-SimpleFeatureFlags provides a simple way to enable or disable features, per-environment, using application configuration.
+SimpleFeatureFlags provides basic, simple feature flag functionality. You can use application configuration (`config/runtime.exs`) to select the deployment environments in which a feature is enabled
 
-The example below describes using a new, exciting algorithm (`:new_algorithm`) for computing `𝝿` in localhost and staging deployment environments, before rolling it out to production (or not).
+This approach is useful when you want to roll out a feature to only a subset of your environments. Here are a couple of examples:
+1. You want to try a feature in your localhost and staging environments, before rolling it out to production.
+2. You want to use a feature in a subset of your production environments (based on a region, or some other grouping).
+
+The example below describes switching to a new, exciting algorithm (`:new_algorithm`) for computing `𝝿` in `:localhost` and `:staging` deployment environments, before rolling it out to `:production` (or not).
 
 ## Installation
 
@@ -63,7 +67,6 @@ defmodule MyApp.Pi do
 end
 ```
 
-
 ## Optional: Log Configuration on Startup
 
 `lib/myapp/application.ex`
@@ -87,4 +90,40 @@ Here is an example of the output:
   Features:
   - new_algorithm is ON. Enabled in [:localhost, :staging]
   - new_ui is OFF. Enabled in [:staging]
+```
+
+
+## Completing the Experiment: Retiring `:new_algorithm` or Rolling it Out to `:production`
+
+If, after experiencing `:new_algorithm` is `:localhost` and `:staging`, you decided that the world is not ready for its genius, you can simply remove `new_algorithm` and its implementation from configs and the codebase.
+
+If you are now confident that this `new_algorithm` for computing `𝝿` will make the world and your product better, and you want to roll it out to production, you have a couple of options:
+
+1. Remove the feature flag completely. The new feature is now part of your codebase.
+2. Add your production environment to the `enabled_in:` list, or replace the list with `:all`:
+   * `new_algorithm: %{enabled_in: [:localhost, :staging: :production]},` OR
+   * `new_algorithm: %{enabled_in: :all},`.
+
+
+## A/B, Regional Testing
+
+The example above alluded to the existence of `:localhost`, `:staging`, and `:production` deployment environments.
+
+The configuration approach of choosing the environments in which your changes are live remains the same, regardless of how many production or staging environments you have: simply detect `current_deployment_environment` in which the code is running, and include all environments of interest in the `enabled_in` list.
+
+For example, to roll `:new_algorithm` out to your production environment running in Singapore, but not to the US or Japan, you might do something like this:  
+
+`config/runtime.exs`
+```elixir
+# e.g. :localhost, :staging, :production_us, :production_sg, :production_jp
+# Detect this in runtime.
+current_deployment_environment = ... 
+
+config :simple_feature_flags, :flags, %{
+  current_deployment_environment: current_deployment_environment,
+  features: %{
+    # enabled in production in Singapore.
+    new_algorithm: %{enabled_in: [:localhost, :staging, :production_sg]},
+  }
+}
 ```
