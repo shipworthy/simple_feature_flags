@@ -34,12 +34,12 @@ defmodule SimpleFeatureFlagsTest do
                """
                Current Deployment Environment: :test
                Features:
-                - test_feature_1, enabled in [:all]
-                - test_feature_2, enabled in :all
-                - test_feature_3, enabled in [:test]
-                - test_feature_4, enabled in [:staging, :test, :production]
-                - test_feature_5, enabled in [:staging, :production]
-                - test_feature_6, enabled in []
+                - test_feature_1 is ON. Enabled in [:all]
+                - test_feature_2 is ON. Enabled in :all
+                - test_feature_3 is ON. Enabled in [:test]
+                - test_feature_4 is ON. Enabled in [:staging, :test, :production]
+                - test_feature_5 is OFF. Enabled in [:staging, :production]
+                - test_feature_6 is OFF. Enabled in []
                """
     end
 
@@ -50,12 +50,12 @@ defmodule SimpleFeatureFlagsTest do
                """
                Current Deployment Environment: :test
                Features:
-                - test_feature_1, enabled in [:all]
-                - test_feature_2, enabled in :all
-                - test_feature_3, enabled in [:test]
-                - test_feature_4, enabled in [:staging, :test, :production]
-                - test_feature_5, enabled in [:staging, :production]
-                - test_feature_6, enabled in []
+                - test_feature_1 is ON. Enabled in [:all]
+                - test_feature_2 is ON. Enabled in :all
+                - test_feature_3 is ON. Enabled in [:test]
+                - test_feature_4 is ON. Enabled in [:staging, :test, :production]
+                - test_feature_5 is OFF. Enabled in [:staging, :production]
+                - test_feature_6 is OFF. Enabled in []
                """
     end
   end
