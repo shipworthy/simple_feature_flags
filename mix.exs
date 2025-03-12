@@ -13,6 +13,7 @@ defmodule SimpleFeatureFlags.MixProject do
       name: "Simple Feature Flags",
       source_url: "https://github.com/shipworthy/simple_feature_flags",
       docs: [
+        main: "README",
         extras: ["README.md", "LICENSE"]
       ],
       test_coverage: [
