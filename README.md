@@ -40,7 +40,7 @@ config :simple_feature_flags, :flags, %{
   current_deployment_environment: current_deployment_environment,
   features: %{
     new_algorithm: %{enabled_in: [:localhost, :staging]},
-    new_ui: %{enabled_in: [:localhost]}
+    new_ui: %{enabled_in: [:staging]}
   }
 }
 ```
@@ -84,5 +84,5 @@ Here is an example of the output:
   Current Deployment Environment: :localhost
   Features:
   - new_algorithm is ON. Enabled in [:localhost, :staging]
-  - new_ui is OFF. Enabled in [:localhost]
+  - new_ui is OFF. Enabled in [:staging]
 ```
