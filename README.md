@@ -2,7 +2,7 @@
 
 SimpleFeatureFlags provides a simple way to enable or disable features, per-environment, using application configuration.
 
-The example below describes using a new, exciting algorithm (`:new_algorithm`) for computing `𝝿` in localhost and staging deployments, before rolling it out to production (or not).
+The example below describes using a new, exciting algorithm (`:new_algorithm`) for computing `𝝿` in localhost and staging deployment environments, before rolling it out to production (or not).
 
 ## Installation
 
