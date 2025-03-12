@@ -5,7 +5,7 @@ defmodule SimpleFeatureFlags.MixProject do
     [
       app: :simple_feature_flags,
       description: "Simple feature flags",
-      version: "0.1.2",
+      version: "0.1.3",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -13,6 +13,7 @@ defmodule SimpleFeatureFlags.MixProject do
       name: "Simple Feature Flags",
       source_url: "https://github.com/shipworthy/simple_feature_flags",
       docs: [
+        main: "README",
         extras: ["README.md", "LICENSE"]
       ],
       test_coverage: [
@@ -41,7 +42,7 @@ defmodule SimpleFeatureFlags.MixProject do
   defp deps do
     [
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.31", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.37", only: :dev, runtime: false}
     ]
   end
 end

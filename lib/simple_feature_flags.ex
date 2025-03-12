@@ -33,7 +33,7 @@ defmodule SimpleFeatureFlags do
   ## Examples
 
       iex> SimpleFeatureFlags.current_configuration_to_string()
-      "Current Deployment Environment: :test\\nFeatures:\\n - test_feature_1, enabled in [:all]\\n - test_feature_2, enabled in :all\\n - test_feature_3, enabled in [:test]\\n - test_feature_4, enabled in [:staging, :test, :production]\\n - test_feature_5, enabled in [:staging, :production]\\n - test_feature_6, enabled in []\\n"
+      "Current Deployment Environment: :test\\nFeatures:\\n - test_feature_1 is ON. Enabled in [:all]\\n - test_feature_2 is ON. Enabled in :all\\n - test_feature_3 is ON. Enabled in [:test]\\n - test_feature_4 is ON. Enabled in [:staging, :test, :production]\\n - test_feature_5 is OFF. Enabled in [:staging, :production]\\n - test_feature_6 is OFF. Enabled in []\\n"
 
   """
   def current_configuration_to_string() do
@@ -53,11 +53,12 @@ defmodule SimpleFeatureFlags do
     Current Deployment Environment: #{inspect(current_deployment_environment)}
     Features:
     """ <>
-      (for {feature_name, %{enabled_in: enabled_in}} <- features do
-         """
-          - #{feature_name}, enabled in #{inspect(enabled_in)}
-         """
-       end
-       |> Enum.join())
+      Enum.map_join(features, "", fn {feature_name, %{enabled_in: enabled_in}} ->
+        on_or_off = if SimpleFeatureFlags.enabled?(feature_name), do: "ON", else: "OFF"
+
+        """
+         - #{feature_name} is #{on_or_off}. Enabled in #{inspect(enabled_in)}
+        """
+      end)
   end
 end
