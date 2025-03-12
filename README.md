@@ -2,6 +2,8 @@
 
 SimpleFeatureFlags provides a simple way to enable or disable features, per-environment, using application configuration.
 
+The example below describes using a new, exciting algorithm (`:new_algorithm`) for computing `𝝿` in localhost and staging deployments, before rolling it out to production (or not).
+
 ## Installation
 
 The package can be installed by adding `simple_feature_flags` to your list of dependencies in `mix.exs`:
@@ -17,9 +19,7 @@ end
 The docs can be found at <https://hexdocs.pm/simple_feature_flags>.
 
 
-## Code Example
-
-### Configuration
+## Configuration
 
 Determine the name of the deployment environment you are running in, and list the environments in which your feature is enabled.
 
@@ -45,24 +45,26 @@ config :simple_feature_flags, :flags, %{
 }
 ```
 
-### Using Feature Flag in Your Code
+## Using Feature Flag in Your Code
 
 Wrap your feature logic in `SimpleFeatureFlags.enabled?/1`:
 
 ```elixir
-def compute_pi() do
-  if SimpleFeatureFlags.enabled?(:new_algorithm) do
-    # Use the new, better algorithm.
-    compute_pi_new_algorithm()
-  else
-    # Use the old, boring algorithm.
-    3.14
+defmodule MyApp.Pi do
+  def compute_pi() do
+    if SimpleFeatureFlags.enabled?(:new_algorithm) do
+      # Use the new, exciting algorithm.
+      compute_pi_new_algorithm()
+    else
+      # Use the old, boring algorithm.
+      3.14
+    end
   end
 end
 ```
 
 
-### Optional: Log Configuration on Startup
+## Optional: Log Configuration on Startup
 
 `lib/myapp/application.ex`
 
