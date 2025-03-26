@@ -59,9 +59,7 @@ defmodule SimpleFeatureFlags do
           features: features
         } = configuration
       )
-      when is_atom(current_deployment_environment) and
-             current_deployment_environment != nil and
-             is_map(features) do
+      when current_deployment_environment != nil and is_map(features) do
     validate_deployment_environments(configuration)
 
     """
@@ -97,6 +95,12 @@ defmodule SimpleFeatureFlags do
          current_deployment_environment: current_deployment_environment,
          features: features
        }) do
+    for known_env <- known_deployment_environments do
+      if !is_atom(known_env) do
+        raise "Expecting atoms in 'known_deployment_environments'. '#{known_env}' is not an atom."
+      end
+    end
+
     if current_deployment_environment not in known_deployment_environments do
       raise "Unknown deployment environment '#{current_deployment_environment}'. Known environments: #{Enum.join(known_deployment_environments, ", ")}."
     end
@@ -112,7 +116,19 @@ defmodule SimpleFeatureFlags do
     :ok
   end
 
-  defp validate_deployment_environments(_configuration) do
+  defp validate_deployment_environments(%{
+         current_deployment_environment: current_deployment_environment,
+         features: features
+       })
+       when is_atom(current_deployment_environment) and current_deployment_environment != nil and
+              is_map(features) do
     :ok
+  end
+
+  defp validate_deployment_environments(%{
+         current_deployment_environment: current_deployment_environment
+       })
+       when not is_atom(current_deployment_environment) do
+    raise "'current_deployment_environment' is expected to be an atom. '#{current_deployment_environment}' is not an atom."
   end
 end

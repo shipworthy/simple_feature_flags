@@ -105,6 +105,24 @@ defmodule SimpleFeatureFlagsTest do
                """
     end
 
+    test "unexpected deployed environment (expecting an atom)" do
+      configuration = %{
+        current_deployment_environment: "production",
+        features: %{
+          test_feature_1: %{enabled_in: [:all]},
+          test_feature_2: %{enabled_in: :all},
+          test_feature_3: %{enabled_in: [:test]},
+          test_feature_4: %{enabled_in: [:staging, :test, :production]},
+          test_feature_5: %{enabled_in: [:staging, :production]},
+          test_feature_6: %{enabled_in: []}
+        }
+      }
+
+      assert_raise RuntimeError,
+                   "'current_deployment_environment' is expected to be an atom. 'production' is not an atom.",
+                   fn -> SimpleFeatureFlags.configuration_to_string(configuration) end
+    end
+
     test "unexpected deployed environment, :all (reserved atom)" do
       configuration = %{
         current_deployment_environment: :all,
@@ -139,6 +157,25 @@ defmodule SimpleFeatureFlagsTest do
 
       assert_raise RuntimeError,
                    "Unknown deployment environment 'production_eu'. Known environments: test, staging, production.",
+                   fn -> SimpleFeatureFlags.configuration_to_string(configuration) end
+    end
+
+    test "known_deployment_environments must be a collection of atoms" do
+      configuration = %{
+        current_deployment_environment: :production,
+        known_deployment_environments: [:test, :staging, :production, "chicken"],
+        features: %{
+          test_feature_1: %{enabled_in: [:all]},
+          test_feature_2: %{enabled_in: :all},
+          test_feature_3: %{enabled_in: [:test]},
+          test_feature_4: %{enabled_in: [:staging, :test, :production_eu]},
+          test_feature_5: %{enabled_in: [:staging, :production]},
+          test_feature_6: %{enabled_in: []}
+        }
+      }
+
+      assert_raise RuntimeError,
+                   "Expecting atoms in 'known_deployment_environments'. 'chicken' is not an atom.",
                    fn -> SimpleFeatureFlags.configuration_to_string(configuration) end
     end
 
