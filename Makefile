@@ -29,6 +29,14 @@ lint:
 
 
 hex-publish:
+	mix hex.publish
+
+
+hex-publish-docs:
+	mix hex.publish docs
+
+
+hex-publish-private:
 	mix hex.publish --organization shipworthy
 
 
