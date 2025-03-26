@@ -32,6 +32,9 @@ In this example, the name of the deployment environment is loaded from an enviro
 
 `config/runtime.exs`
 ```elixir
+
+# Determine the current environment.
+# Is the service running on localhost? In the staging environment? In production?
 current_deployment_environment =
   System.get_env("DEPLOYMENT_ENVIRONMENT")
   |> case do
@@ -41,7 +44,15 @@ current_deployment_environment =
 
 
 config :simple_feature_flags, :flags, %{
+  # In which deployment environment (e.g., :production, :staging, :localhost, :test) is
+  # the code currently running?
   current_deployment_environment: current_deployment_environment,
+
+  # Optional: list possible deployment environments, for additional validation and
+  # protection against typos.
+  known_deployment_environments: [:test, :staging, :production],
+
+  # In which of the environments do you want to enable each feature?
   features: %{
     new_algorithm: %{enabled_in: [:localhost, :staging]},
     new_ui: %{enabled_in: [:staging]}
@@ -49,7 +60,7 @@ config :simple_feature_flags, :flags, %{
 }
 ```
 
-## Using Feature Flag in Your Code
+## Using Feature Flags in Your Code
 
 Wrap your feature logic in `SimpleFeatureFlags.enabled?/1`:
 
@@ -88,8 +99,8 @@ Here is an example of the output:
 ```text
   Current Deployment Environment: :localhost
   Features:
-  - new_algorithm is ON. Enabled in [:localhost, :staging]
-  - new_ui is OFF. Enabled in [:staging]
+  - new_algorithm is ON. Enabled in [:localhost, :staging].
+  - new_ui is OFF. Enabled in [:staging].
 ```
 
 
