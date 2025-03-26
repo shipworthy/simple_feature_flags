@@ -41,7 +41,7 @@ defmodule SimpleFeatureFlagsTest do
     test "sunny day path" do
       assert SimpleFeatureFlags.current_configuration_to_string() ==
                """
-               Current Deployment Environment: :test
+               Current Deployment Environment: :test.
                Features:
                 - test_feature_1 is ON. Enabled in [:all].
                 - test_feature_2 is ON. Enabled in :all.
@@ -69,7 +69,7 @@ defmodule SimpleFeatureFlagsTest do
 
       assert SimpleFeatureFlags.configuration_to_string(configuration) ==
                """
-               Current Deployment Environment: :test
+               Current Deployment Environment: :test.
                Features:
                 - test_feature_1 is ON. Enabled in [:all].
                 - test_feature_2 is ON. Enabled in :all.
@@ -96,7 +96,8 @@ defmodule SimpleFeatureFlagsTest do
 
       assert SimpleFeatureFlags.configuration_to_string(configuration) ==
                """
-               Current Deployment Environment: :test
+               Current Deployment Environment: :test.
+               Known Deployment Environments: test, staging, production.
                Features:
                 - test_feature_1 is ON. Enabled in [:all].
                 - test_feature_2 is ON. Enabled in :all.
@@ -160,6 +161,25 @@ defmodule SimpleFeatureFlagsTest do
 
       assert_raise RuntimeError,
                    "Feature 'test_feature_4' is marked as enabled in 'production_eu', which is not a known deployment environment. Known environments: test, staging, production.",
+                   fn -> SimpleFeatureFlags.configuration_to_string(configuration) end
+    end
+
+    test "empty set of known environments (`known_deployment_environments: []`) " do
+      configuration = %{
+        current_deployment_environment: :test,
+        known_deployment_environments: [],
+        features: %{
+          test_feature_1: %{enabled_in: [:all]},
+          test_feature_2: %{enabled_in: :all},
+          test_feature_3: %{enabled_in: [:test]},
+          test_feature_4: %{enabled_in: [:staging, :test, :production]},
+          test_feature_5: %{enabled_in: [:staging, :production]},
+          test_feature_6: %{enabled_in: []}
+        }
+      }
+
+      assert_raise RuntimeError,
+                   "Unknown deployment environment 'test'. Known environments: .",
                    fn -> SimpleFeatureFlags.configuration_to_string(configuration) end
     end
   end

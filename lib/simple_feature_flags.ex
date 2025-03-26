@@ -44,7 +44,7 @@ defmodule SimpleFeatureFlags do
   ## Examples
 
       iex> SimpleFeatureFlags.current_configuration_to_string()
-      "Current Deployment Environment: :test\\nFeatures:\\n - test_feature_1 is ON. Enabled in [:all].\\n - test_feature_2 is ON. Enabled in :all.\\n - test_feature_3 is ON. Enabled in [:test].\\n - test_feature_4 is ON. Enabled in [:staging, :test, :production].\\n - test_feature_5 is OFF. Enabled in [:staging, :production].\\n - test_feature_6 is OFF. Enabled in [].\\n"
+      "Current Deployment Environment: :test.\\nFeatures:\\n - test_feature_1 is ON. Enabled in [:all].\\n - test_feature_2 is ON. Enabled in :all.\\n - test_feature_3 is ON. Enabled in [:test].\\n - test_feature_4 is ON. Enabled in [:staging, :test, :production].\\n - test_feature_5 is OFF. Enabled in [:staging, :production].\\n - test_feature_6 is OFF. Enabled in [].\\n"
 
   """
   def current_configuration_to_string() do
@@ -65,9 +65,12 @@ defmodule SimpleFeatureFlags do
     validate_deployment_environments(configuration)
 
     """
-    Current Deployment Environment: #{inspect(current_deployment_environment)}
-    Features:
+    Current Deployment Environment: #{inspect(current_deployment_environment)}.
     """ <>
+      known_environments(configuration) <>
+      """
+      Features:
+      """ <>
       Enum.map_join(features, "", fn {feature_name, %{enabled_in: enabled_in}} ->
         on_or_off = if SimpleFeatureFlags.enabled?(feature_name), do: "ON", else: "OFF"
 
@@ -76,6 +79,14 @@ defmodule SimpleFeatureFlags do
         """
       end)
   end
+
+  defp known_environments(%{known_deployment_environments: known_environments}) do
+    """
+    Known Deployment Environments: #{Enum.join(known_environments, ", ")}.
+    """
+  end
+
+  defp known_environments(_), do: ""
 
   defp validate_deployment_environments(%{current_deployment_environment: :all}) do
     raise "Unexpected deployment environment, ':all'. This is a reserved name."

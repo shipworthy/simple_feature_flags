@@ -44,8 +44,8 @@ current_deployment_environment =
 
 
 config :simple_feature_flags, :flags, %{
-  # In what deployment environment (e.g., :production, :staging, :localhost, :test) is
-  # the service currently running?
+  # In which deployment environment (e.g., :production, :staging, :localhost, :test) is
+  # the code currently running?
   current_deployment_environment: current_deployment_environment,
 
   # Optional: list possible deployment environments, for additional validation and
@@ -60,7 +60,7 @@ config :simple_feature_flags, :flags, %{
 }
 ```
 
-## Using Feature Flag in Your Code
+## Using Feature Flags in Your Code
 
 Wrap your feature logic in `SimpleFeatureFlags.enabled?/1`:
 
@@ -99,8 +99,8 @@ Here is an example of the output:
 ```text
   Current Deployment Environment: :localhost
   Features:
-  - new_algorithm is ON. Enabled in [:localhost, :staging]
-  - new_ui is OFF. Enabled in [:staging]
+  - new_algorithm is ON. Enabled in [:localhost, :staging].
+  - new_ui is OFF. Enabled in [:staging].
 ```
 
 
