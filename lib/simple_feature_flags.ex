@@ -104,7 +104,7 @@ defmodule SimpleFeatureFlags do
     for {feature_name, %{enabled_in: enabled_in}} <- features, enabled_in != :all do
       for feature_enabled_in_env <- enabled_in do
         if feature_enabled_in_env not in [:all | known_deployment_environments] do
-          raise "Feature '#{feature_name}' is marked as enabled in '#{feature_enabled_in_env}', which is not a known deployment environment. Known environments: #{Enum.join(known_deployment_environments, ", ")}."
+          raise "Feature '#{feature_name}' is marked as 'enabled' in environment '#{feature_enabled_in_env}', which is not a known deployment environment. Known environments: #{Enum.join(known_deployment_environments, ", ")}."
         end
       end
     end

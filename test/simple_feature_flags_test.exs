@@ -2,9 +2,6 @@ defmodule SimpleFeatureFlagsTest do
   use ExUnit.Case
   doctest SimpleFeatureFlags
 
-  describe "bad environment defined_environments" do
-  end
-
   describe "enabled?" do
     test ":no_such_feature" do
       assert_raise RuntimeError,
@@ -160,7 +157,7 @@ defmodule SimpleFeatureFlagsTest do
       }
 
       assert_raise RuntimeError,
-                   "Feature 'test_feature_4' is marked as enabled in 'production_eu', which is not a known deployment environment. Known environments: test, staging, production.",
+                   "Feature 'test_feature_4' is marked as 'enabled' in environment 'production_eu', which is not a known deployment environment. Known environments: test, staging, production.",
                    fn -> SimpleFeatureFlags.configuration_to_string(configuration) end
     end
 
