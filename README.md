@@ -32,6 +32,9 @@ In this example, the name of the deployment environment is loaded from an enviro
 
 `config/runtime.exs`
 ```elixir
+
+# Determine the current environment.
+# Is the service running on localhost? In the staging environment? In production?
 current_deployment_environment =
   System.get_env("DEPLOYMENT_ENVIRONMENT")
   |> case do
@@ -41,7 +44,15 @@ current_deployment_environment =
 
 
 config :simple_feature_flags, :flags, %{
+  # In what deployment environment (e.g., :production, :staging, :localhost, :test) is
+  # the service currently running?
   current_deployment_environment: current_deployment_environment,
+
+  # Optional: list possible deployment environments, for additional validation and
+  # protection against typos.
+  known_deployment_environments: [:test, :staging, :production],
+
+  # For each of the features, in which of the environments is the feature enabled?
   features: %{
     new_algorithm: %{enabled_in: [:localhost, :staging]},
     new_ui: %{enabled_in: [:staging]}
