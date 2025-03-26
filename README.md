@@ -52,7 +52,7 @@ config :simple_feature_flags, :flags, %{
   # protection against typos.
   known_deployment_environments: [:test, :staging, :production],
 
-  # For each of the features, in which of the environments is the feature enabled?
+  # In which of the environments do you want to enable each feature?
   features: %{
     new_algorithm: %{enabled_in: [:localhost, :staging]},
     new_ui: %{enabled_in: [:staging]}
