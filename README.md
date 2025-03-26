@@ -1,6 +1,6 @@
 # README
 
-SimpleFeatureFlags provides basic, simple feature flag functionality. You can use application configuration (`config/runtime.exs`) to select the deployment environments in which a feature is enabled
+SimpleFeatureFlags provides basic, simple feature flag functionality. You can use application configuration (`config/runtime.exs`) to select the deployment environments in which a feature is enabled.
 
 This approach is useful when you want to roll out a feature to only a subset of your environments. Here are a couple of examples:
 1. You want to try a feature in your localhost and staging environments, before rolling it out to production.
